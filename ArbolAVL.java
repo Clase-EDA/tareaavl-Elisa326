@@ -11,7 +11,6 @@ import static javafx.scene.input.KeyCode.T;
 public class ArbolAVL <T extends Comparable<T>> {
     protected NodoAVL raiz = new NodoAVL(null);
    
-   
     public boolean isEmpty() {
         if(raiz == null)
             return true;
@@ -386,28 +385,24 @@ public class ArbolAVL <T extends Comparable<T>> {
        
     }
 
-    public ArrayList inordenA() {
-        ArrayList lista =new ArrayList();
+    public ArrayList<NodoAVL>  inordenA() {
+        ArrayList <NodoAVL> lista =new ArrayList<NodoAVL> ();
         inorden(raiz, lista);
         return lista;
        
     }
-    public Iterator<T> inorden() {
+    public Iterator<NodoAVL> inorden() {
         return inordenA().iterator();
        
     }
-    private void inorden(NodoAVL<T> actual, ArrayList lista){
+    private void inorden(NodoAVL<T> actual, ArrayList <NodoAVL> lista){
         if (actual==null)
             return;
         inorden(actual.getIzq(),lista);
-        lista.add(actual.getElement());
-        lista.add((T)"-->");
-        lista.add(actual.getFe());
-
+        lista.add(actual);
         inorden(actual.getDer(),lista);
        
     }  
-   
      public int largo(){
         int alt = altura(raiz);
         int i = 0 ;
@@ -419,36 +414,68 @@ public class ArbolAVL <T extends Comparable<T>> {
         }
         return largo;
     }
-   
-    public void matDatos(){
-        int alt = altura(raiz);
-        T [][] mat;
-        mat = (T[][]) (new Comparable[alt+1][largo()]);
-
-        ponDatos(mat, raiz, 1, largo()/2, "Izq");
-        for(int i = 0; i < alt; i++){
-            for(int j = 0; j < largo(); j++){
-                if(mat[i][j] != null)
-                    System.out.print(mat[i][j] + "         ");
-               else
-                   System.out.print("        " + "      ");
-            }
-            System.out.print("\n");
+    public NodoAVL findMax(NodoAVL act){
+        System.out.println("raiz " + act.getElement());
+        while(act!= null){
+            act = act.getDer();
         }
+         System.out.println("max " + act.getElement());
+        return act;
     }
-   
-    private T[][] ponDatos(T[][] mat, NodoAVL <T> act, int contRen, int contCol, String lado){
-   
-
-        if(act != null && contRen <= altura(raiz)+2){
-            mat[contRen-1][contCol] = (T) (lado + act.getElement().toString() +  " FE: " + act.fe);
-            ponDatos(mat,act.getIzq(), contRen+1, contCol-1, "Izq ");
-            ponDatos(mat,act.getDer(), contRen+1, contCol+1, "Der ");
-        }
-        else{
-            mat[contRen-1][contCol] = (T) "    ";
-        }
-       return mat;    
+        public ArrayList <NodoAVL> preordenA() {
+        ArrayList <NodoAVL> lista =new ArrayList<NodoAVL>();
+        preorden(raiz, lista);
+        return lista; 
     }
+    private void preorden(NodoAVL<T> actual, ArrayList<NodoAVL> lista){
+        if (actual==null)
+            return;
+        lista.add(actual);
+        preorden(actual.getIzq(),lista);
+        preorden(actual.getDer(),lista);
+    }
+     public Iterator<NodoAVL> preorden() {
+        ArrayList <NodoAVL>  lista =new ArrayList<NodoAVL> ();
+        preorden(raiz, lista);
+        return preordenA().iterator();
+    }
+     
+    public int distARaiz(NodoAVL act){
+       int i = 0;
+//       System.out.print("    raiz: " + raiz.getElement());
+//       System.out.print("    act: " + act.getElement());
+       while (act.getElement()!= raiz.getElement()){
+//           System.out.println ("entra "  );
+           act = act.getPapa();
+           i++;
+         }
+//       System.out.println(" dist: " + i);
+       return i;
+   }
+    
+     public void impr(){
+         
+         NodoAVL[] arr = new NodoAVL[inordenA().size()];
+         for(int h = 0;h < inordenA().size(); h++ ){
+             arr[h] = inordenA().remove(h);
+         }
+         int dist = 0;
+         int distAR;
+         //System.out.print(raiz.getElement() + " FE: " + raiz.getFe() + "-->");
+         while(dist <= altura(raiz)){
+             int j = 0;
+             while( j < arr.length){
+                 distAR =distARaiz(arr[j]);
+                 if(distAR == dist){
+//                       System.out.println("dist a R: " +distAR );
+//                     System.out.println("dist de Niv: " +dist );
+                     System.out.print(arr[j].getElement() + " ");
+                     System.out.print("FE: " + arr[j].getFe() + "--> ");
+                 }
+                 j++;
+             }
+             dist++;
+         }
+     }
 
 }

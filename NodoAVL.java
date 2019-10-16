@@ -17,9 +17,9 @@ public class NodoAVL <T extends Comparable <T>> {
         return element;
     }
     
-    public String toString() {
-        return element.toString() + "\n[" + izq.toString() + "---" + der.toString() + "]";
-    }
+//    public String toString() {
+//        return element.toString() + "\n[" + izq.toString() + "---" + der.toString() + "]";
+//    }
 
     public NodoAVL<T> getDer() {
         return der;

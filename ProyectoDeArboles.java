@@ -23,18 +23,20 @@ public class ProyectoDeArboles {
         ar.add(5);
         ar.add(110);
         ar.add(100);
-        ar.add(50);
-        ar.add(115);
-        ar.add(300);
-        ar.add(37);
+//        ar.add(50);
+//        ar.add(115);
+//        ar.add(300);
+//        ar.add(37);
 //        ar.add(302);
 //        ar.add(47);
         
-        nod = ar.busca(10);
-        System.out.println ("hijo der de nod " + nod.getDer().getElement());
+       // nod = ar.busca(10);
+        ar.impr();
+        //System.out.println ("hijo der de nod " + nod.getDer().getElement());
 //        System.out.println( "Max : " + ar.findMax());
 
-        ar.matDatos();
+      //  ar.ponDatos1();
+       System.out.print(ar.preordenA());
 //        System.out.println( "Altura: " + ar.altura(ar.getRaiz()));
 //        System.out.println( "Altura de 115: " + ar.altura(nod));
 //        ar.remove(300);
