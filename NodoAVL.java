@@ -50,14 +50,14 @@ public class NodoAVL <T extends Comparable <T>> {
     }
     
      
-    public void cuelga (NodoAVL<T> N){
-        if(N == null)
+    public void cuelga (NodoAVL<T> nodo){
+        if(nodo == null)
             return;
-        if(N.element.compareTo(element) < 0)
-            izq = N;
+        if(nodo.element.compareTo(element) < 0)
+            izq = nodo;
         else
-            der = N;
-        N.setPapa(this);
+            der = nodo;
+        nodo.setPapa(this);
     
     }    
 

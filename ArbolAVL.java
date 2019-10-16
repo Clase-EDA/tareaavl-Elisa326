@@ -8,7 +8,7 @@ import static javafx.scene.input.KeyCode.T;
  *
  * @author EESPINOSRU
  */
-public class ArbolAVL <T extends Comparable<T>> {
+public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
     protected NodoAVL raiz = new NodoAVL(null);
    
     public boolean isEmpty() {
@@ -442,11 +442,12 @@ public class ArbolAVL <T extends Comparable<T>> {
 //                       System.out.println("dist a R: " +distAR );
 //                     System.out.println("dist de Niv: " +dist );
                      System.out.print(arr[j].getElement() + " ");
-                     System.out.print("FE: " + arr[j].getFe() + "--> ");
+                     System.out.print("FE: " + arr[j].getFe() + " --> ");
                  }
                  j++;
              }
              dist++;
+             System.out.print("\n"); // Si lo quieres impreso por niveles
          }
      }
 
