@@ -12,16 +12,12 @@ public class ArbolAVL <T extends Comparable<T>> {
     protected NodoAVL raiz = new NodoAVL(null);
    
     public boolean isEmpty() {
-        if(raiz == null)
-            return true;
-        else
-            return false;
+        return raiz == null;
     }
    
     public void setRaiz(NodoAVL<T> a){
         raiz = a;
     }
-   
 
     public void add(T ele) {
         if(raiz != null){
@@ -81,8 +77,7 @@ public class ArbolAVL <T extends Comparable<T>> {
 
 
         }
-    }
-   
+    }   
    
      public int altura(NodoAVL<T> n){
          
@@ -112,7 +107,6 @@ public class ArbolAVL <T extends Comparable<T>> {
         alt = alt +1;
         return alt;
     }
-
    
     private NodoAVL<T> rotacion(NodoAVL<T> n) {
         NodoAVL<T> alfa = null;
@@ -260,8 +254,6 @@ public class ArbolAVL <T extends Comparable<T>> {
         }
              
     }
-
-   
    
     public NodoAVL<T> busca(T elem){
         return busca(raiz, elem);
@@ -384,7 +376,6 @@ public class ArbolAVL <T extends Comparable<T>> {
         }
        
     }
-
     public ArrayList<NodoAVL>  inordenA() {
         ArrayList <NodoAVL> lista =new ArrayList<NodoAVL> ();
         inorden(raiz, lista);
@@ -421,25 +412,7 @@ public class ArbolAVL <T extends Comparable<T>> {
         }
          System.out.println("max " + act.getElement());
         return act;
-    }
-        public ArrayList <NodoAVL> preordenA() {
-        ArrayList <NodoAVL> lista =new ArrayList<NodoAVL>();
-        preorden(raiz, lista);
-        return lista; 
-    }
-    private void preorden(NodoAVL<T> actual, ArrayList<NodoAVL> lista){
-        if (actual==null)
-            return;
-        lista.add(actual);
-        preorden(actual.getIzq(),lista);
-        preorden(actual.getDer(),lista);
-    }
-     public Iterator<NodoAVL> preorden() {
-        ArrayList <NodoAVL>  lista =new ArrayList<NodoAVL> ();
-        preorden(raiz, lista);
-        return preordenA().iterator();
-    }
-     
+    }  
     public int distARaiz(NodoAVL act){
        int i = 0;
 //       System.out.print("    raiz: " + raiz.getElement());
@@ -451,8 +424,7 @@ public class ArbolAVL <T extends Comparable<T>> {
          }
 //       System.out.println(" dist: " + i);
        return i;
-   }
-    
+   } 
      public void impr(){
          
          NodoAVL[] arr = new NodoAVL[inordenA().size()];

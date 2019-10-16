@@ -18,37 +18,24 @@ public class ProyectoDeArboles {
       
         
         ArbolAVL ar = new ArbolAVL();
-        NodoAVL nod = new NodoAVL(10);
+        NodoAVL nod = new NodoAVL(13);
         ar.setRaiz(nod);
-        ar.add(5);
-        ar.add(110);
-        ar.add(100);
-//        ar.add(50);
-//        ar.add(115);
-//        ar.add(300);
+        ar.add(3);
+        ar.add(55);
+        ar.add(10);
+//        ar.add(23);
+//        ar.add(25);
+//        ar.add(56);
+//        ar.add(77);
+//        ar.add(30);
 //        ar.add(37);
-//        ar.add(302);
-//        ar.add(47);
         
        // nod = ar.busca(10);
         ar.impr();
-        //System.out.println ("hijo der de nod " + nod.getDer().getElement());
-//        System.out.println( "Max : " + ar.findMax());
+        ar.remove(3);
+        ar.impr();
+        
 
-      //  ar.ponDatos1();
-       System.out.print(ar.preordenA());
-//        System.out.println( "Altura: " + ar.altura(ar.getRaiz()));
-//        System.out.println( "Altura de 115: " + ar.altura(nod));
-//        ar.remove(300);
-//        ar.remove(115);
-//        ar.remove(50);
-//        System.out.println( "Altura: " + ar.altura(ar.getRaiz()));
-
-       // System.out.print(ar.getRaiz().getIzq());
-//       System.out.println( "Fact Eq 10: " + nod.getFe());
-//       ar.remove(110);
-//        System.out.println( "Lista inOrden: " + ar.inOrden());
-//        System.out.println( "Fact Eq 10: " + nod.getFe());
         
     }
     
