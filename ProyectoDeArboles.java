@@ -39,8 +39,6 @@ public class ProyectoDeArboles {
                 ar.impr();
         ar.remove(400);
                 ar.impr();
-                
-        System.out.println(ar.busca(500).getIzq() == null);
         ar.remove(380);
         ar.impr();
         
