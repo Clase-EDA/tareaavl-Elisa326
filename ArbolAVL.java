@@ -10,6 +10,7 @@ import static javafx.scene.input.KeyCode.T;
  */
 public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
     protected NodoAVL raiz = new NodoAVL(null);
+    protected int cont = 0;
    
     public boolean isEmpty() {
         return raiz == null;
@@ -26,6 +27,7 @@ public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
         }    
         else
             raiz = new NodoAVL(ele);
+        cont++;
        
     }
    
@@ -123,7 +125,6 @@ public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
                 alfa = n;
                 papa = n.getPapa();
                 beta = alfa.getIzq();
-               
                 gamma = beta.getDer();
                 A = beta.getIzq();
                 B = gamma.getIzq();
@@ -277,80 +278,210 @@ public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
 
    public T remove(T elem) {
        System.out.println("Se va a eliminar " + elem);
-        remove1(elem);
+        delete(elem);
         return elem;
     }
+   private NodoAVL findMin(){
+       NodoAVL act = raiz;
+       while(act != null)
+           act = act.getIzq();
+       return act;
+   }
    
-    private boolean remove1(T elem){
-        NodoAVL<T> bor = busca(raiz, elem);
-        if (bor == null) {
+       private boolean delete(T elem){
+          
+        NodoAVL<T> temp = null, temp2;
+        NodoAVL n = busca(raiz, elem);
+        if (n == null)
             return false;
-        } else {
-            if (bor.getIzq() == null && bor.getDer() == null) {
-                if(bor == raiz){
-                    raiz = null;
-                }else{
-                    if (bor.getPapa().getElement().compareTo(elem) > 0) {
-                        System.out.println("Hijo izquierdo");
-                        NodoAVL<T> aux = bor.getPapa();
-                        aux.setIzq(null);
-                        aux.fe += 1;
-                        if(Math.abs(aux.fe) != 1 )
-                            eliminaFE(aux);    
-                       
-                       
-                    } else {
-                        System.out.println("Hijo Derecho");
-                        eliminaFE(bor);
-                        bor.getPapa().setDer(null);
-                   
-                    }
-                }
-            } else {
-                if (bor.getIzq() == null) {
-                    if(bor == raiz){;
-                        raiz = bor.getDer();
-                        raiz.setPapa(null);
-                    }
-                    else{
-                        eliminaFE(bor);
-                        bor.getPapa().cuelga(bor.getDer());
-                    }
-                }else if(bor.getDer() == null){
-                    if(bor == raiz){
-                        raiz = bor.getDer();
-                        raiz.setPapa(null);
-                    }
-                    else{
-                        eliminaFE(bor);
-                        bor.getPapa().cuelga(bor.getIzq());
-                    }
-                   
-                }
-                else{
-                    NodoAVL<T> suc = bor.getDer();
-                    while(suc.getIzq() != null)
-                        suc = suc.getIzq();
-                    bor.setElement(suc.getElement());
-                    if(suc == bor.getDer()){
-                        eliminaFE(suc);
-                        bor.setDer(suc.getDer());
-                    }else{
-
-                        eliminaFE(suc);
-                        suc.getPapa().setIzq(suc.getDer());
-                    }
-                   
-                }
-
+        //Si es una hoja
+        if (n.getDer()==null && n.getIzq()==null){
+            if (n.getPapa()==null){
+                n = null;  
+                raiz = null;
             }
-           
-       
+            else
+                if (n.getElement().compareTo(n.getPapa().getElement())<0){
+                    n.getPapa().setIzq(temp);
+                }//if
+                else{
+                    n.getPapa().setDer(temp);        
+                }//else
+            temp2 = n.getPapa();
+            n.setPapa(temp);
+            int eq = temp2.getFe() ,a = temp2.getFe();
+            while (eq != a && temp2 != null){
+                System.out.println("while delete raro");
+                if (Math.abs(a) == 2)
+                    rotacion(temp2);
+                temp2 = temp2.getPapa();
+                eq = temp2.getFe();
+                a = temp2.getFe();
+            }
+        }//if
+        else//Si solo tiene un hijo
+            if (n.getIzq()==null){
+                System.out.println("anda aqui");
+                if(n.getPapa() == null){                                
+                    raiz = n.getDer();
+                    raiz.setPapa(temp);
+                }//if
+                else{                    
+                    n.getPapa().cuelga(n.getDer());
+                }//else
+                int eq = n.getFe() ,a = n.getFe();
+                while (eq != a && n != null){
+                System.out.println("while delete extraño");
+                if (Math.abs(a) == 2)
+                    rotacion(n);
+                n = n.getPapa();
+                eq = n.getFe();
+                a = n.getFe();
+            }//while
+            }else
+            if (n.getDer()==null){
+                if(n == raiz){
+                    raiz = n.getIzq();
+                    raiz.setPapa(temp);
+                }else
+                    n.getPapa().cuelga(n.getIzq());
+            }//if
+            else{//Si tiene dos hijos. 
+                System.out.println("entro aqui");
+                NodoAVL<T> suc = n.getDer();
+//                System.out.println("act " + n.getElement());
+//                System.out.println("der " + n.getDer().getElement());
+//                System.out.println("izq " + n.getIzq().getElement());
+                while(suc.getIzq()!=null)
+                    suc = suc.getIzq(); //encontrar el menor de los mayores
+                n.setElement(suc.getElement());
+                if(suc == n.getDer())
+                    n.setDer(suc.getDer());
+                else{
+                    if(suc.getPapa().getDer() != null){
+//                        System.out.println(suc.getElement());
+                        suc.setElement(suc.getDer().getElement());
+                        suc.setDer(null);
+//                        System.out.println(suc.getElement());
+                        System.out.println("entre al hijo der != null");
+                    }
+                    else
+                        suc.getPapa().setIzq(temp);
+                       
+                }
+//                System.out.println("act " + n.getDer().getElement());
+//                System.out.println("der " + n.getDer().getDer().getElement());
+//                System.out.println("izq " + n.getDer().getIzq().getElement());
+            }
+        cambiaTodFE();
+        if(verificaFe() == null){
+            System.out.println("FE  está bien");
+            cont--;
+            return true;
         }
-         
-        return true;
+        else{
+            System.out.print("FE no está bien");
+            rotacion(verificaFe());
+        }
+        cont--;
+            return true;
     }
-   
+    public void cambiaFe(NodoAVL act){
+        act.setFe(altura(act.getDer()) - altura(act.getIzq()));
+    }
+    
+    public void cambiaTodFE(){
+        NodoAVL[] arr = new NodoAVL[inordenA().size()];
+        for(int h = 0;h < inordenA().size(); h++ ){
+             arr[h] = inordenA().remove(h);
+             cambiaFe(arr[h]);
+         }
+    }
+    public NodoAVL verificaFe(){
+        int i = 0;
+        System.out.println("cont: " + cont);
+        NodoAVL[] arr = new NodoAVL[inordenA().size()];
+         for(int h = 0;h < inordenA().size(); h++ ){
+             arr[h] = inordenA().remove(h);
+         }
+        while( i < cont && (arr[i].getFe() != 2 && arr[i].getFe() != -2)){
+            i++;
+        }
+        if( i < cont && (arr[i].getFe() == 2 || arr[i].getFe() == -2) )
+            return arr[i];
+        else return null;
+    }
+//    private boolean remove1(T elem){
+//        NodoAVL<T> bor = busca(raiz, elem);
+//        if (bor == null) {
+//            return false;
+//        } else {
+//            if (bor.getIzq() == null && bor.getDer() == null) {
+//                if(bor == raiz){
+//                    raiz = null;
+//                }else{
+//                    if (bor.getPapa().getElement().compareTo(elem) > 0) {
+//                        System.out.println("Hijo izquierdo");
+//                        NodoAVL<T> aux = bor.getPapa();
+//                        aux.setIzq(null);
+//                        aux.fe += 1;
+//                        if(Math.abs(aux.fe) != 1 )
+//                            eliminaFE(aux);    
+//                       
+//                       
+//                    } else {
+//                        
+//                        eliminaFE(bor);
+//                        bor.getPapa().setDer(null);
+//                   
+//                    }
+//                }
+//            } else {
+//                if (bor.getIzq() == null) {
+//                    if(bor == raiz){;
+//                        raiz = bor.getDer();
+//                        raiz.setPapa(null);
+//                    }
+//                    else{
+//                        
+//                        raiz.setElement(findMin().getElement());
+//                        findMin().getPapa().setIzq(null); 
+//                        
+//                    }
+//                }else if(bor.getDer() == null){
+//                    if(bor == raiz){
+//                        raiz = bor.getDer();
+//                        raiz.setPapa(null);
+//                    }
+//                    else{
+//                        eliminaFE(bor);
+//                        bor.getPapa().cuelga(bor.getIzq());
+//                    }
+//                   
+//                }
+//                else{
+//                    NodoAVL<T> suc = bor.getDer();
+//                    while(suc.getIzq() != null)
+//                        suc = suc.getIzq();
+//                    bor.setElement(suc.getElement());
+//                    if(suc == bor.getDer()){
+//                        eliminaFE(suc);
+//                        bor.setDer(suc.getDer());
+//                    }else{
+//                        eliminaFE(suc);
+//                        suc.getPapa().setIzq(suc.getDer());
+//                    }
+//                   
+//                }
+//
+//            }
+//           
+//       
+//        }
+//         
+//        return true;
+//    }
+//   
     public void eliminaFE(NodoAVL<T> nuevo){
         NodoAVL<T> actual = nuevo;
         boolean termine = false;
@@ -442,7 +573,7 @@ public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
 //                       System.out.println("dist a R: " +distAR );
 //                     System.out.println("dist de Niv: " +dist );
                      System.out.print(arr[j].getElement() + " ");
-                     System.out.print("FE: " + arr[j].getFe() + " --> ");
+                     System.out.print("FE: " + arr[j].getFe() + "--> ");
                  }
                  j++;
              }
@@ -450,5 +581,7 @@ public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
              System.out.print("\n"); // Si lo quieres impreso por niveles
          }
      }
+
+     
 
 }

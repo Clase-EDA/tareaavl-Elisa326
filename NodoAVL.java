@@ -64,6 +64,13 @@ public class NodoAVL <T extends Comparable <T>> {
     public int getFe() {
         return fe;
     }
+    
+    public boolean esHoja(){
+        if(der == null && izq == null)
+            return true;
+        else
+            return false;
+    }
 
     public void setFe(int fe) {
         this.fe = fe;

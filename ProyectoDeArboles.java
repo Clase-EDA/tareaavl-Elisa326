@@ -18,21 +18,30 @@ public class ProyectoDeArboles {
       
         
         ArbolAVL ar = new ArbolAVL();
-        NodoAVL nod = new NodoAVL(13);
+        NodoAVL nod = new NodoAVL(100);
         ar.setRaiz(nod);
-        ar.add(3);
-        ar.add(55);
-        ar.add(10);
-//        ar.add(23);
-//        ar.add(25);
-//        ar.add(56);
-//        ar.add(77);
-//        ar.add(30);
-//        ar.add(37);
+        ar.add(300);
+        ar.add(400);
+        ar.add(350);
+        ar.add(375);
+        ar.add(50);
+        ar.add(200);
+        ar.add(360);
+        ar.add(380);
+        ar.add(500);
+        ar.add(390);
         
        // nod = ar.busca(10);
         ar.impr();
-        ar.remove(3);
+        ar.remove(375);
+                ar.impr();
+        ar.remove(50);
+                ar.impr();
+        ar.remove(400);
+                ar.impr();
+                
+        System.out.println(ar.busca(500).getIzq() == null);
+        ar.remove(380);
         ar.impr();
         
 
