@@ -179,7 +179,7 @@ public class ArbolAVL <T extends Comparable<T>> implements BinaryTreeADT <T> {
                     raiz = beta;
                 }
                 alfa.setFe(altura(alfa.getDer()) - altura(alfa.getIzq()));
-                beta.setFe(altura(gamma) - altura(alfa));
+                beta.setFe(altura(alfa) - altura(gamma));
                 return beta;
             }
         }
